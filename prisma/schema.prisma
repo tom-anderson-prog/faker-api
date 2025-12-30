@@ -41,7 +41,7 @@ model Todo {
   title String
   completed Boolean
 
-  userId Int
+  userId Int @map("user_id")
   user User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -52,10 +52,26 @@ model Todo {
 model Album {
   id Int @id @default(autoincrement())
   title String
-  userId Int
+  userId Int @map("user_id")
   user User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
 
+  photos Photo[]
+
   @@map("albums")
+}
+
+model Photo {
+  id Int @id @default(autoincrement())
+  title String
+  url String?
+  thumbnailUrl String? @map("thumbnail_url")
+
+  albumId Int @map("album_id")
+  album Album @relation(fields: [albumId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("photos")
 }
