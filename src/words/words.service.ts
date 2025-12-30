@@ -7,11 +7,11 @@ export class WordsService {
 
   async getRandomWord() {
     // 先取总数再随机
-    const count = await this.prisma.words.count();
+    const count = await this.prisma.word.count();
     if (count === 0) return { word: null };
 
     const skip = Math.floor(Math.random() * count);
-    const randomWord = await this.prisma.words.findFirst({
+    const randomWord = await this.prisma.word.findFirst({
       skip,
       select: { word: true },
     });
@@ -20,13 +20,13 @@ export class WordsService {
   }
 
   findOne(id: number) {
-    return this.prisma.words.findUnique({
+    return this.prisma.word.findUnique({
       where: { id },
     });
   }
 
   remove(id: number) {
-    return this.prisma.words.delete({
+    return this.prisma.word.delete({
       where: { id },
     });
   }
