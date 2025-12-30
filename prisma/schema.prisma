@@ -18,3 +18,17 @@ model Words {
   id   Int    @id @default(autoincrement())
   word String
 }
+
+model Users {
+  id Int @id @default(autoincrement())
+  name String
+  username String @unique
+  email String @unique
+  address Json?
+  phone String?
+  website String?
+  company Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
