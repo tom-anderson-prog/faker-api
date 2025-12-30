@@ -1,5 +1,9 @@
-import { UserModel } from './../../generated/prisma/models/User';
-import { Injectable } from '@nestjs/common';
+import type {
+  UserCreateInput,
+  UserModel,
+  UserUpdateInput,
+} from 'generated/prisma/models';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -31,6 +35,41 @@ export class UsersService {
 
   findOne(id: number): Promise<UserModel | null> {
     return this.prisma.user.findUnique({
+      where: { id },
+    });
+  }
+
+  create(data: UserCreateInput) {
+    return this.prisma.user.create({
+      data,
+    });
+  }
+
+  async update(id: number, data: UserUpdateInput) {
+    const existing = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!existing) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return this.prisma.user.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async remove(id: number) {
+    const existing = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!existing) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    return this.prisma.user.delete({
       where: { id },
     });
   }
