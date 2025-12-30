@@ -31,6 +31,7 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
 
   todos Todo[] 
+  albums Album[]
 
   @@map("users")
 }
@@ -46,4 +47,15 @@ model Todo {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("todos")
+}
+
+model Album {
+  id Int @id @default(autoincrement())
+  title String
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("albums")
 }
