@@ -19,7 +19,7 @@ model Words {
   word String
 }
 
-model Users {
+model User {
   id Int @id @default(autoincrement())
   name String
   username String @unique
@@ -30,5 +30,20 @@ model Users {
   company Json?
   createdAt DateTime @default(now()) @map("created_at")
 
+  todos Todo[] 
+
   @@map("users")
+}
+
+model Todo {
+  id Int @id @default(autoincrement())
+  title String
+  completed Boolean
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("todos")
 }
