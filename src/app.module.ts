@@ -6,6 +6,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
+import { TodosModule } from './todos/todos.module';
+import { PhotosModule } from './photos/photos.module';
+import { AlbumsModule } from './albums/albums.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { PostsModule } from './posts/posts.module';
     WordsModule,
     UsersModule,
     PostsModule,
+    TodosModule,
+    PhotosModule,
+    AlbumsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

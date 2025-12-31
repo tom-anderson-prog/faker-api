@@ -1,5 +1,5 @@
 import { PrismaService } from 'src/prisma/prisma.service';
-import {
+import type {
   PostCreateInput,
   PostUpdateInput,
   PostModel,
@@ -24,7 +24,7 @@ export class PostsService {
         skip,
         take: limit,
         orderBy: {
-          id: 'desc',
+          id: 'asc',
         },
       }),
       this.prisma.post.count(),
