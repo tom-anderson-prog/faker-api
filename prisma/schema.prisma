@@ -14,9 +14,16 @@ datasource db {
   provider = "postgresql"
 }
 
+enum WordEnum {
+  EN @map("en")
+  CN @map("cn")
+  ES @map("es")
+}
+
 model Word {
   id   Int    @id @default(autoincrement())
   word String
+  lang WordEnum
 
   @@map("words")
 }

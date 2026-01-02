@@ -6,8 +6,11 @@ export class WordsController {
   constructor(private readonly wordsService: WordsService) {}
 
   @Get('random-word')
-  findRandomOne() {
-    return this.wordsService.getRandomWord();
+  findRandomOne(lang: 'en' | 'cn' | 'es' = 'en') {
+    if (lang !== 'cn' && lang !== 'en' && lang !== 'es') {
+      lang = 'en';
+    }
+    return this.wordsService.getRandomWord(lang);
   }
 
   @Get(':id')

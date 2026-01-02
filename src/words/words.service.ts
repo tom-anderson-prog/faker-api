@@ -5,16 +5,16 @@ import { PrismaService } from '../prisma/prisma.service';
 export class WordsService {
   constructor(private prisma: PrismaService) {}
 
-  async getRandomWord() {
+  async getRandomWord(lang: 'en' | 'es' | 'cn') {
     // 先取总数再随机
-    const count = await this.prisma.word.count();
+    const data = await this.prisma.word.findMany({
+      where: { lang },
+    });
+    const count = data.length;
     if (count === 0) return { word: null };
 
     const skip = Math.floor(Math.random() * count);
-    const randomWord = await this.prisma.word.findFirst({
-      skip,
-      select: { word: true },
-    });
+    const randomWord = data.slice(skip, 1);
 
     return randomWord || { word: null };
   }
