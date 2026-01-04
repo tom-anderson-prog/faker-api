@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Delete, Query } from '@nestjs/common';
 import { WordsService } from './words.service';
 
 @Controller('words')
@@ -6,7 +6,7 @@ export class WordsController {
   constructor(private readonly wordsService: WordsService) {}
 
   @Get('random-word')
-  findRandomOne(lang: 'en' | 'cn' | 'es' = 'en') {
+  findRandomOne(@Query('lang') lang?: 'en' | 'cn' | 'es') {
     if (lang !== 'cn' && lang !== 'en' && lang !== 'es') {
       lang = 'en';
     }

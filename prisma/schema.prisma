@@ -15,9 +15,9 @@ datasource db {
 }
 
 enum WordEnum {
-  EN @map("en")
-  CN @map("cn")
-  ES @map("es")
+  en
+  cn
+  es
 }
 
 model Word {
