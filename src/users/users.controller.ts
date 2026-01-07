@@ -19,10 +19,14 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  findAll(@Query('page') pageStr?: string, @Query('limit') limitStr?: string) {
+  findAll(
+    @Query('page') pageStr?: string,
+    @Query('limit') limitStr?: string,
+    @Query('name_like') nameLike?: string,
+  ) {
     const page = pageStr ? +pageStr : 1;
     const limit = limitStr ? +limitStr : 10;
-    return this.usersService.findAll(page, limit);
+    return this.usersService.findAll(page, limit, nameLike);
   }
 
   @Get(':id')

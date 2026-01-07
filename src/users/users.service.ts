@@ -10,16 +10,20 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(page: number = 1, limit: number = 10) {
+  async findAll(page: number = 1, limit: number = 10, nameLike: string = '') {
     const skip = (page - 1) * limit;
+    const where = nameLike
+      ? { name: { contains: nameLike, mode: 'insensitive' as const } }
+      : {};
 
     const [data, total] = await Promise.all([
       this.prisma.user.findMany({
+        where,
         skip,
         take: limit,
         orderBy: { id: 'desc' },
       }),
-      this.prisma.user.count(),
+      this.prisma.user.count({ where }),
     ]);
 
     return {
