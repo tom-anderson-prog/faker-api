@@ -22,10 +22,14 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  findAll(@Query('page') pageStr?: string, @Query('limit') limitStr?: string) {
+  findAll(
+    @Query('page') pageStr?: string,
+    @Query('limit') limitStr?: string,
+    @Query('search') searchStr?: string,
+  ) {
     const page = pageStr ? +pageStr : 1;
     const limit = limitStr ? +limitStr : 10;
-    return this.postsService.findAll(page, limit);
+    return this.postsService.findAll(page, limit, searchStr);
   }
 
   @Get(':id')

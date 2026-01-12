@@ -16,18 +16,25 @@ export class PostsService {
     });
   }
 
-  async findAll(page: number = 1, limit: number = 10) {
+  async findAll(page: number = 1, limit: number = 10, search: string = '') {
     const skip = (page - 1) * limit;
+    const where = search
+      ? {
+          OR: [{ title: { contains: search } }, { body: { contains: search } }],
+        }
+      : {};
 
     const [data, total] = await Promise.all([
       this.prisma.post.findMany({
+        where,
+        include: { user: { select: { name: true, email: true } } },
         skip,
         take: limit,
         orderBy: {
           id: 'asc',
         },
       }),
-      this.prisma.post.count(),
+      this.prisma.post.count({ where }),
     ]);
 
     return {
