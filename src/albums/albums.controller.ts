@@ -11,6 +11,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
 
@@ -24,8 +25,14 @@ export class AlbumsController {
   }
 
   @Get()
-  findAll() {
-    return this.albumsService.findAll();
+  findAll(
+    @Query('page') pageStr: string,
+    @Query('limit') limitStr: string,
+    @Query('userId') userId: string,
+  ) {
+    const page = pageStr ? Number(pageStr) : 1;
+    const limit = limitStr ? Number(limitStr) : 10;
+    return this.albumsService.findAll(page, limit, userId);
   }
 
   @Get(':id')

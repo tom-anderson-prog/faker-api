@@ -16,17 +16,23 @@ export class AlbumsService {
     });
   }
 
-  async findAll(page: number = 1, limit: number = 10) {
+  async findAll(page: number = 1, limit: number = 10, userId: string = '') {
     const skip = (page - 1) * limit;
+    const where = userId
+      ? {
+          userId: Number(userId),
+        }
+      : {};
     const [data, total] = await Promise.all([
       this.prisma.album.findMany({
+        where,
         skip,
         take: limit,
         orderBy: {
           id: 'asc',
         },
       }),
-      this.prisma.album.count(),
+      this.prisma.album.count({ where }),
     ]);
     return {
       data,

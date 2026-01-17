@@ -3,6 +3,7 @@ import type {
   PostCreateInput,
   PostUpdateInput,
   PostModel,
+  PostWhereInput,
 } from './../../generated/prisma/models';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
@@ -16,13 +17,37 @@ export class PostsService {
     });
   }
 
-  async findAll(page: number = 1, limit: number = 10, search: string = '') {
+  async findAll(
+    page: number = 1,
+    limit: number = 10,
+    search: string = '',
+    userId: string = '',
+  ) {
     const skip = (page - 1) * limit;
-    const where = search
-      ? {
-          OR: [{ title: { contains: search } }, { body: { contains: search } }],
-        }
-      : {};
+
+    const addConditions: PostWhereInput[] = [];
+
+    if (search) {
+      addConditions.push({
+        OR: [
+          {
+            title: { contains: search },
+          },
+          {
+            body: { contains: search },
+          },
+        ],
+      });
+    }
+
+    if (userId) {
+      addConditions.push({
+        userId: Number(userId),
+      });
+    }
+
+    const where: PostWhereInput =
+      addConditions.length > 0 ? { AND: addConditions } : {};
 
     const [data, total] = await Promise.all([
       this.prisma.post.findMany({

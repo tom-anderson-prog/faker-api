@@ -26,10 +26,11 @@ export class PostsController {
     @Query('page') pageStr?: string,
     @Query('limit') limitStr?: string,
     @Query('search') searchStr?: string,
+    @Query('userId') userId?: string,
   ) {
     const page = pageStr ? +pageStr : 1;
     const limit = limitStr ? +limitStr : 10;
-    return this.postsService.findAll(page, limit, searchStr);
+    return this.postsService.findAll(page, limit, searchStr, userId);
   }
 
   @Get(':id')
