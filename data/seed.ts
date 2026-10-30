@@ -14,7 +14,7 @@ console.log(process.env.DATABASE_URL);
 // 现在你可以拿到环境变量了
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool); // 在 Prisma 7 中，需要将 adapter 传入构造函数
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
 interface SeedData {
