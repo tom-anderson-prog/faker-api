@@ -34,7 +34,7 @@ export class JwtGuard implements CanActivate {
       req.user = payload;
       return true;
     } catch (e) {
-      console.log('JWT verification failed: ', e);
+      // console.log('JWT verification failed: ', e);
       throw new UnauthorizedException('token 无效或已过期');
     }
   }

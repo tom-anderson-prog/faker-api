@@ -12,7 +12,6 @@ export class ReviewController {
   @Post()
   create(@Body() createReviewDto: ReviewCreateInput, @Req() req: Request) {
     const { sub, username } = req.user!;
-    console.log(req);
 
     return this.reviewService.create(sub, username, createReviewDto);
   }
