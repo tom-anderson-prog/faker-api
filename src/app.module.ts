@@ -9,6 +9,7 @@ import { PostsModule } from './posts/posts.module';
 import { TodosModule } from './todos/todos.module';
 import { PhotosModule } from './photos/photos.module';
 import { AlbumsModule } from './albums/albums.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AlbumsModule } from './albums/albums.module';
     TodosModule,
     PhotosModule,
     AlbumsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -115,3 +115,13 @@ model Comment {
 
   @@map("comments")
 }
+
+model Customer {
+  id Int @id @default(autoincrement())
+  username String @unique
+  password String
+  nickname String?
+  createdAt DateTime @default(now())
+
+  @@map("customers")
+}

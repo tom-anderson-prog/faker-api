@@ -5,6 +5,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client';
 
 import * as dotenv from 'dotenv';
+import * as bcrypt from 'bcrypt';
 
 // 加载项目根目录下的 .env 文件
 dotenv.config({ path: path.join(process.cwd(), '.env') });
@@ -73,6 +74,14 @@ async function main() {
       );
     }
   }
+
+  // 手动插入一条customer数据
+  const hash = await bcrypt.hash('k",$;yExeML5h3?#tbsjaR&)_ir+8~6{', 10);
+  await prisma.customer.upsert({
+    where: { username: 'jack chan' },
+    update: {},
+    create: { username: 'jack chan', password: hash, nickname: '管理员' },
+  });
   console.log('种子数据执行完成！');
 }
 main()
