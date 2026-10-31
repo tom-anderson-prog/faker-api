@@ -5,9 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider     = "prisma-client"
-  output       = "../generated/prisma"
-  moduleFormat = "cjs"
+  provider            = "prisma-client"
+  output              = "../generated/prisma"
+  moduleFormat        = "cjs"
   importFileExtension = "js"
 }
 
@@ -22,7 +22,7 @@ enum WordEnum {
 }
 
 model Word {
-  id   Int    @id @default(autoincrement())
+  id   Int      @id @default(autoincrement())
   word String
   lang WordEnum
 
@@ -30,30 +30,30 @@ model Word {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  username String @unique
-  email String @unique
-  address Json?
-  phone String?
-  website String?
-  company Json?
+  id        Int      @id @default(autoincrement())
+  name      String
+  username  String   @unique
+  email     String   @unique
+  address   Json?
+  phone     String?
+  website   String?
+  company   Json?
   createdAt DateTime @default(now()) @map("created_at")
 
-  todos Todo[] 
+  todos  Todo[]
   albums Album[]
-  posts Post[]
+  posts  Post[]
 
   @@map("users")
 }
 
 model Todo {
-  id Int @id @default(autoincrement())
-  title String
+  id        Int     @id @default(autoincrement())
+  title     String
   completed Boolean
 
-  userId Int @map("user_id")
-  user User @relation(fields: [userId], references: [id])
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -61,10 +61,10 @@ model Todo {
 }
 
 model Album {
-  id Int @id @default(autoincrement())
-  title String
-  userId Int @map("user_id")
-  user User @relation(fields: [userId], references: [id])
+  id     Int    @id @default(autoincrement())
+  title  String
+  userId Int    @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -74,13 +74,13 @@ model Album {
 }
 
 model Photo {
-  id Int @id @default(autoincrement())
-  title String
-  url String?
+  id           Int     @id @default(autoincrement())
+  title        String
+  url          String?
   thumbnailUrl String? @map("thumbnail_url")
 
-  albumId Int @map("album_id")
-  album Album @relation(fields: [albumId], references: [id])
+  albumId Int   @map("album_id")
+  album   Album @relation(fields: [albumId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -88,12 +88,12 @@ model Photo {
 }
 
 model Post {
-  id Int @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   title String
-  body String
+  body  String
 
-  userId Int @map("user_id")
-  user User @relation(fields: [userId], references: [id])
+  userId Int  @map("user_id")
+  user   User @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -103,13 +103,13 @@ model Post {
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
-  name String?
+  id    Int     @id @default(autoincrement())
+  name  String?
   email String?
-  body String?
+  body  String?
 
-  postId Int @map("post_id")
-  post Post @relation(fields: [postId],references: [id])
+  postId Int  @map("post_id")
+  post   Post @relation(fields: [postId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -117,11 +117,32 @@ model Comment {
 }
 
 model Customer {
-  id Int @id @default(autoincrement())
-  username String @unique
-  password String
-  nickname String?
-  createdAt DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  nickname  String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  reviews Review[]
 
   @@map("customers")
+}
+
+model Review {
+  id           Int      @id @default(autoincrement())
+  docPath      String   @map("doc_path")
+  docName      String   @map("doc_name")
+  duration     Int
+  endTime      DateTime @map("end_time")
+  lastProgress Int      @map("last_progress")
+  maxProgress  Int      @map("max_progress")
+  reason       String
+  startTime    DateTime @map("start_time")
+  userId       Int      @map("user_id")
+  customer     Customer @relation(fields: [userId], references: [id])
+  username     String
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("reviews")
 }

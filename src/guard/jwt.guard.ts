@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -17,6 +18,7 @@ declare module 'express' {
   }
 }
 
+@Injectable()
 export class JwtGuard implements CanActivate {
   constructor(private readonly jwt: JwtService) {}
   canActivate(context: ExecutionContext): boolean {
@@ -31,7 +33,8 @@ export class JwtGuard implements CanActivate {
       const payload = this.jwt.verify<JwtPayload>(token);
       req.user = payload;
       return true;
-    } catch {
+    } catch (e) {
+      console.log('JWT verification failed: ', e);
       throw new UnauthorizedException('token 无效或已过期');
     }
   }
